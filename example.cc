@@ -1,4 +1,6 @@
 // g++ -std=c++11 -o example example.cc
+//update
+// g++-13 -pthread -std=c++17 -Wall -Werror=return-type -Wno-reorder -fdiagnostics-color=auto -ffast-math -o example example.cc
 #include <iostream>
 #include <vector>
 #include "iitii.h"
@@ -16,10 +18,11 @@ int main() {
     p_iitii db = br.build(1);  // 1 = # domains
     // alternative: p_iitii db = p_iitii::builder(container.begin(), container.end()).build(1);
 
-    std::vector<intpair> results = db.overlap(22, 25);
-    // alternative: db.overlap(22, 25, results);
+//    std::vector<intpair> results;
+    std::vector<const intpair*>  results = db.overlap(22, 25);
+//     alternative: db.overlap(22, 25, results);
 
     for (const auto& p : results)
-        std::cout << p.first << "\t" << p.second << std::endl;
+        std::cout << p->first << "\t" << p->second << std::endl;
     return 0;
 }

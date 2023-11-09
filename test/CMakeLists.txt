@@ -14,10 +14,10 @@ include_directories(${PROJECT_SOURCE_DIR}/..)
 # After build, double-check external/src/htslib-stamp/htslib-build-out.log
 # to make sure CFLAGS were set as expected
 ExternalProject_Add(htslib
-    URL https://github.com/samtools/htslib/releases/download/1.10.2/htslib-1.10.2.tar.bz2
+    URL https://github.com/samtools/htslib/releases/download/1.18/htslib-1.18.tar.bz2
     PREFIX ${CMAKE_CURRENT_BINARY_DIR}/external
     BUILD_IN_SOURCE 1
-    CONFIGURE_COMMAND bash -c "autoreconf && CFLAGS='-gdwarf -O3 -DNDEBUG -fvisibility=hidden' ./configure --enable-libcurl=no"
+    CONFIGURE_COMMAND bash -c "autoreconf --install && autoreconf && CFLAGS='-gdwarf -O3 -DNDEBUG -fvisibility=hidden' ./configure --enable-libcurl=no"
     BUILD_COMMAND bash -c "make -n && make -j$(nproc)"
     INSTALL_COMMAND ""
     LOG_DOWNLOAD ON
@@ -55,8 +55,8 @@ ExternalProject_Add(catch
 ExternalProject_Get_Property(catch source_dir)
 include_directories(${source_dir}/single_include)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++17 -Wall -Werror=return-type -Wno-reorder -fdiagnostics-color=auto -ffast-math")
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I/usr/local/include -L/usr/local/lib -pthread -std=c++17 -Wall -Werror=return-type -Wno-reorder -fdiagnostics-color=auto -ffast-math")
+set(CMAKE_CXX_COMPILER "/usr/local/bin/g++-13" )
 add_executable(test_iitii util.h test_iitii.cc)
 add_dependencies(test_iitii catch htslib)
 target_link_libraries(test_iitii libhts libz.a libbz2.a liblzma.a libdeflate.a)

@@ -44,6 +44,7 @@ seems to happen.
 #include <algorithm>
 #include <cmath>
 #include <assert.h>
+#include <functional>
 
 // Base template for the internal representation of a node within an implicit interval tree
 // User should not care about this; subclass instantiations may add more members for more-
